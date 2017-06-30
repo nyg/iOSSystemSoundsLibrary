@@ -13,7 +13,7 @@ AudioServicesPlaySystemSound(1003) // SMSReceived (see SystemSoundID below)
 ```swift
 guard let url = URL(string: "/System/Library/Audio/UISounds/ReceivedMessage.caf") else { ... }
 let systemSoundId = UnsafeMutablePointer<SystemSoundID>.allocate(capacity: 1)
-AudioServicesCreateSystemSoundID(audioFileList[indexPath.row] as NSURL, systemSoundId)
+AudioServicesCreateSystemSoundID(url as NSURL, systemSoundId)
 AudioServicesPlaySystemSound(systemSoundId.pointee)
 ```
 
