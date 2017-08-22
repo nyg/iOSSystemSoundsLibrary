@@ -9,13 +9,47 @@
 import UIKit
 import AVFoundation
 
-class SoundListTableViewController: UITableViewController {
+class SoundListTableViewController: UITableViewController, UISearchBarDelegate {
 
-    var audioFileList = [URL]()
+    typealias Sound = (SystemSoundID, String)
+
+    var fullAudioFileList = [Sound]()
+    var filteredAudioFileList: [Sound]?
+
+    var audioFileList: [Sound] {
+        return filteredAudioFileList ?? fullAudioFileList
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadAudioFileList()
+    }
+
+    // MARK: Search bar delegate
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
+        if searchText.isEmpty {
+            filteredAudioFileList = nil
+        }
+        else {
+            filteredAudioFileList = fullAudioFileList.filter {
+                $0.1.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+
+        tableView.reloadData()
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        filteredAudioFileList = nil
+        tableView.reloadData()
+        searchBar.resignFirstResponder()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 
     // MARK: Table view data source
@@ -29,32 +63,31 @@ class SoundListTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "systemSoundCell", for: indexPath)
-        cell.textLabel?.text = audioFileList[indexPath.row].lastPathComponent
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "systemSoundCell", for: indexPath) as? SoundTableViewCell
+            else { fatalError("Could not dequeue SoundTableViewCell instance.") }
+
+        cell.nameLabel.text = audioFileList[indexPath.row].1
+        cell.identifierLabel.text = audioFileList[indexPath.row].0.description
         return cell
     }
 
     // MARK: Table view delegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        let systemSoundId = UnsafeMutablePointer<SystemSoundID>.allocate(capacity: 1)
-        AudioServicesCreateSystemSoundID(audioFileList[indexPath.row] as NSURL, systemSoundId)
-        AudioServicesPlaySystemSound(systemSoundId.pointee)
-
+        AudioServicesPlaySystemSound(audioFileList[indexPath.row].0)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
     // MARK: Private methods
 
-    func loadAudioFileList() {
+    private func loadAudioFileList() {
 
         guard let url = URL(string: "/System/Library/Audio/UISounds") else {
             fatalError("Couldn't create URL.")
         }
 
         let key = URLResourceKey.isDirectoryKey
-
         guard let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [ key ]) else {
             fatalError("Couldn't create enunerator.")
         }
@@ -64,7 +97,11 @@ class SoundListTableViewController: UITableViewController {
             do {
                 let resourceValues = try url.resourceValues(forKeys: [ key ])
                 if resourceValues.isDirectory == false {
-                    audioFileList.append(url)
+
+                    var soundId: SystemSoundID = 0
+                    if kAudioServicesNoError == AudioServicesCreateSystemSoundID(url as NSURL, &soundId) {
+                        fullAudioFileList.append(Sound(soundId, url.lastPathComponent))
+                    }
                 }
             }
             catch {

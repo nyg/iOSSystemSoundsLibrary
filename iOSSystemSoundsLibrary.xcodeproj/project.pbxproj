@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CEC163DD1F4C570300091460 /* SoundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC163DC1F4C570300091460 /* SoundTableViewCell.swift */; };
 		CEE50C191F0276990074B747 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE50C181F0276990074B747 /* AppDelegate.swift */; };
 		CEE50C1E1F0276990074B747 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE50C1C1F0276990074B747 /* Main.storyboard */; };
 		CEE50C201F0276990074B747 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE50C1F1F0276990074B747 /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CEC163DC1F4C570300091460 /* SoundTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundTableViewCell.swift; sourceTree = "<group>"; };
 		CEE50C151F0276990074B747 /* iOSSystemSoundsLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSystemSoundsLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE50C181F0276990074B747 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEE50C1D1F0276990074B747 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -35,6 +37,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CEC163D81F4C432A00091460 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				CEE50C1C1F0276990074B747 /* Main.storyboard */,
+				CEE50C211F0276990074B747 /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		CEC163D91F4C433600091460 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEE50C1F1F0276990074B747 /* Assets.xcassets */,
+				CEE50C241F0276990074B747 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		CEE50C0C1F0276990074B747 = {
 			isa = PBXGroup;
 			children = (
@@ -56,10 +76,9 @@
 			children = (
 				CEE50C181F0276990074B747 /* AppDelegate.swift */,
 				CEE50C2A1F0277810074B747 /* SoundListTableViewController.swift */,
-				CEE50C1C1F0276990074B747 /* Main.storyboard */,
-				CEE50C211F0276990074B747 /* LaunchScreen.storyboard */,
-				CEE50C1F1F0276990074B747 /* Assets.xcassets */,
-				CEE50C241F0276990074B747 /* Info.plist */,
+				CEC163DC1F4C570300091460 /* SoundTableViewCell.swift */,
+				CEC163D81F4C432A00091460 /* Storyboards */,
+				CEC163D91F4C433600091460 /* Supporting Files */,
 			);
 			path = iOSSystemSoundsLibrary;
 			sourceTree = "<group>";
@@ -139,6 +158,7 @@
 			files = (
 				CEE50C2B1F0277810074B747 /* SoundListTableViewController.swift in Sources */,
 				CEE50C191F0276990074B747 /* AppDelegate.swift in Sources */,
+				CEC163DD1F4C570300091460 /* SoundTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
