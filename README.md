@@ -15,4 +15,4 @@ if kAudioServicesNoError == AudioServicesCreateSystemSoundID(url as NSURL, &soun
 
 ## Screenshot
 
-![screenshot](http://i.imgur.com/bk26mYW.png)
+![screenshot](https://i.imgur.com/BfWHuJ2.png)
