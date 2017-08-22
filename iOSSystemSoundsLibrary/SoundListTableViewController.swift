@@ -101,6 +101,7 @@ class SoundListTableViewController: UITableViewController, UISearchBarDelegate {
                     var soundId: SystemSoundID = 0
                     if kAudioServicesNoError == AudioServicesCreateSystemSoundID(url as NSURL, &soundId) {
                         fullAudioFileList.append(Sound(soundId, url.lastPathComponent))
+                        print("\(soundId): \(url)")
                     }
                 }
             }
