@@ -37,6 +37,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE8F0D9C1F7CDA8700462A43 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				CEE50C181F0276990074B747 /* AppDelegate.swift */,
+				CEE50C2A1F0277810074B747 /* SoundListTableViewController.swift */,
+				CEC163DC1F4C570300091460 /* SoundTableViewCell.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		CEC163D81F4C432A00091460 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -74,9 +84,7 @@
 		CEE50C171F0276990074B747 /* iOSSystemSoundsLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				CEE50C181F0276990074B747 /* AppDelegate.swift */,
-				CEE50C2A1F0277810074B747 /* SoundListTableViewController.swift */,
-				CEC163DC1F4C570300091460 /* SoundTableViewCell.swift */,
+				CE8F0D9C1F7CDA8700462A43 /* Source */,
 				CEC163D81F4C432A00091460 /* Storyboards */,
 				CEC163D91F4C433600091460 /* Supporting Files */,
 			);
