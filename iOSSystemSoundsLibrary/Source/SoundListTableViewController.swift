@@ -9,9 +9,9 @@
 import UIKit
 import AVFoundation
 
-class SoundListTableViewController: UITableViewController, UISearchBarDelegate {
+typealias Sound = (SystemSoundID, String)
 
-    typealias Sound = (SystemSoundID, String)
+class SoundListTableViewController: UITableViewController, UISearchBarDelegate {
 
     var fullAudioFileList = [Sound]()
     var filteredAudioFileList: [Sound]?
@@ -67,9 +67,7 @@ class SoundListTableViewController: UITableViewController, UISearchBarDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "systemSoundCell", for: indexPath) as? SoundTableViewCell
             else { fatalError("Could not dequeue SoundTableViewCell instance.") }
 
-        cell.nameLabel.text = audioFileList[indexPath.row].1
-        cell.identifierLabel.text = audioFileList[indexPath.row].0.description
-        return cell
+        return cell.set(sound: audioFileList[indexPath.row])
     }
 
     // MARK: Table view delegate
@@ -83,30 +81,24 @@ class SoundListTableViewController: UITableViewController, UISearchBarDelegate {
 
     private func loadAudioFileList() {
 
-        guard let url = URL(string: "/System/Library/Audio/UISounds") else {
-            fatalError("Couldn't create URL.")
-        }
+        guard let url = URL(string: "/System/Library/Audio/UISounds")
+            else { fatalError("Couldn't create URL.") }
 
         let key = URLResourceKey.isDirectoryKey
-        guard let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [ key ]) else {
-            fatalError("Couldn't create enunerator.")
-        }
+        guard let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [ key ])
+            else { fatalError("Couldn't create enunerator.") }
 
         for case let url as URL in enumerator {
 
-            do {
-                let resourceValues = try url.resourceValues(forKeys: [ key ])
-                if resourceValues.isDirectory == false {
+            guard let resourceValues = try? url.resourceValues(forKeys: [ key ])
+                else { fatalError("Error getting resource values for URL.") }
 
-                    var soundId: SystemSoundID = 0
-                    if kAudioServicesNoError == AudioServicesCreateSystemSoundID(url as NSURL, &soundId) {
-                        fullAudioFileList.append(Sound(soundId, url.lastPathComponent))
-                        print("\(soundId): \(url)")
-                    }
-                }
-            }
-            catch {
-                fatalError("Error getting resource values for URL.")
+            guard resourceValues.isDirectory == false
+                else { continue }
+
+            var soundId: SystemSoundID = 0
+            if kAudioServicesNoError == AudioServicesCreateSystemSoundID(url as NSURL, &soundId) {
+                fullAudioFileList.append(Sound(soundId, url.lastPathComponent))
             }
         }
     }
